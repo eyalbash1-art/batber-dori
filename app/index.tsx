@@ -6,46 +6,84 @@ const styles = StyleSheet.create({
   title: { color: '#ffffff', fontWeight: 'bold', fontSize: 28, textAlign: 'center' },
   subtitle: { color: '#d4af37', fontWeight: '600', fontSize: 20, marginTop: 4, textAlign: 'center' },
   description: { color: '#94a3b8', fontSize: 14, marginTop: 8, textAlign: 'center' },
-  mainContent: { paddingHorizontal: 16 },
-  row: { flexDirection: 'row', gap: 12 },
-  column: { flex: 1, gap: 12, justifyContent: 'center' },
-  imageContainer: { width: 200, height: 300, borderRadius: 16, overflow: 'hidden', borderWidth: 2, borderColor: '#d4af37' },
+  mainContent: { paddingHorizontal: 16, marginTop: 20 },
+  mainRow: { 
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    gap: 16,
+    flexWrap: 'nowrap'
+  },
+  sideColumn: { 
+    width: 100,
+    gap: 16,
+    justifyContent: 'center'
+  },
+  imageContainer: { 
+    width: 220, 
+    height: 330, 
+    borderRadius: 16, 
+    overflow: 'hidden', 
+    borderWidth: 2, 
+    borderColor: '#d4af37',
+    marginHorizontal: 16
+  },
   image: { width: '100%', height: '100%' },
-  button: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 12, padding: 16, alignItems: 'center', textDecoration: 'none' },
-  emoji: { fontSize: 30, marginBottom: 8 },
-  buttonText: { color: '#ffffff', fontWeight: '600', textAlign: 'center', fontSize: 13 },
-  bottomSection: { paddingHorizontal: 24, marginTop: 24, gap: 12 },
-  largeButton: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', textDecoration: 'none' },
-  iconCircle: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(212, 175, 55, 0.2)', alignItems: 'center', justifyContent: 'center', marginRight: 16 },
+  smallButton: { 
+    backgroundColor: '#1e293b', 
+    borderWidth: 1, 
+    borderColor: '#334155', 
+    borderRadius: 12, 
+    padding: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 90,
+    width: '100%'
+  },
+  emoji: { fontSize: 32, marginBottom: 6 },
+  smallButtonText: { color: '#ffffff', fontWeight: '600', textAlign: 'center', fontSize: 12 },
+  bottomSection: { paddingHorizontal: 24, marginTop: 32, gap: 12 },
+  largeButton: { 
+    backgroundColor: '#1e293b', 
+    borderWidth: 1, 
+    borderColor: '#334155', 
+    borderRadius: 16, 
+    padding: 16, 
+    flexDirection: 'row', 
+    alignItems: 'center'
+  },
+  iconCircle: { 
+    width: 48, 
+    height: 48, 
+    borderRadius: 24, 
+    backgroundColor: 'rgba(212, 175, 55, 0.2)', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    marginRight: 16 
+  },
   largeEmoji: { fontSize: 24 },
   buttonContent: { flex: 1 },
   largeButtonTitle: { color: '#ffffff', fontWeight: '600', fontSize: 18 },
   largeButtonSubtitle: { color: '#94a3b8', fontSize: 14 },
   arrow: { color: '#d4af37', fontSize: 18 },
-  footer: { paddingHorizontal: 24, marginTop: 24 },
+  footer: { paddingHorizontal: 24, marginTop: 24, marginBottom: 40 },
   footerText: { color: '#64748b', textAlign: 'center', fontSize: 14 }
 });
 
 export default function HomeScreen() {
-  const openUrl = (url: string) => {
-    if (Platform.OS === 'web' && typeof window !== 'undefined') {
-      window.open(url, '_blank');
-    }
-  };
-
-  const LinkWrapper = ({ href, children, external = false }: any) => {
+  const LinkButton = ({ href, external = false, children }: any) => {
     if (Platform.OS === 'web') {
       return (
         <a 
-          href={href} 
+          href={href}
+          target={external ? '_blank' : '_self'}
+          rel={external ? 'noopener noreferrer' : undefined}
           style={{ 
             textDecoration: 'none', 
-            color: 'inherit', 
-            display: 'flex',
-            flex: external ? undefined : 1
+            color: 'inherit',
+            width: '100%',
+            display: 'block'
           }}
-          target={external ? '_blank' : undefined}
-          rel={external ? 'noopener noreferrer' : undefined}
         >
           {children}
         </a>
@@ -55,7 +93,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>דור באש</Text>
         <Text style={styles.subtitle}>Barber Dori</Text>
@@ -63,23 +101,25 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.mainContent}>
-        <View style={styles.row}>
-          <View style={styles.column}>
-            <LinkWrapper href="/booking">
-              <View style={styles.button}>
+        <View style={styles.mainRow}>
+          {/* Right Side Buttons */}
+          <View style={styles.sideColumn}>
+            <LinkButton href="/booking">
+              <View style={styles.smallButton}>
                 <Text style={styles.emoji}>📅</Text>
-                <Text style={styles.buttonText}>קביעת{'\n'}תור</Text>
+                <Text style={styles.smallButtonText}>קביעת{'\n'}תור</Text>
               </View>
-            </LinkWrapper>
+            </LinkButton>
             
-            <LinkWrapper href="https://wa.me/972505812495" external>
-              <View style={styles.button}>
+            <LinkButton href="https://wa.me/972505812495" external>
+              <View style={styles.smallButton}>
                 <Text style={styles.emoji}>💬</Text>
-                <Text style={styles.buttonText}>WhatsApp</Text>
+                <Text style={styles.smallButtonText}>WhatsApp</Text>
               </View>
-            </LinkWrapper>
+            </LinkButton>
           </View>
 
+          {/* Center Image */}
           <View style={styles.imageContainer}>
             <Image 
               source={{ uri: "/barber-hero.png" }} 
@@ -88,26 +128,27 @@ export default function HomeScreen() {
             />
           </View>
 
-          <View style={styles.column}>
-            <LinkWrapper href="https://www.tiktok.com/@dor1033?_r=1&_t=ZS-93y38VGz5oi" external>
-              <View style={styles.button}>
+          {/* Left Side Buttons */}
+          <View style={styles.sideColumn}>
+            <LinkButton href="https://www.tiktok.com/@dor1033?_r=1&_t=ZS-93y38VGz5oi" external>
+              <View style={styles.smallButton}>
                 <Text style={styles.emoji}>🎵</Text>
-                <Text style={styles.buttonText}>TikTok</Text>
+                <Text style={styles.smallButtonText}>TikTok</Text>
               </View>
-            </LinkWrapper>
+            </LinkButton>
             
-            <LinkWrapper href="/prices">
-              <View style={styles.button}>
+            <LinkButton href="/prices">
+              <View style={styles.smallButton}>
                 <Text style={styles.emoji}>💰</Text>
-                <Text style={styles.buttonText}>מחירון</Text>
+                <Text style={styles.smallButtonText}>מחירון</Text>
               </View>
-            </LinkWrapper>
+            </LinkButton>
           </View>
         </View>
       </View>
 
       <View style={styles.bottomSection}>
-        <LinkWrapper href="/media">
+        <LinkButton href="/media">
           <View style={styles.largeButton}>
             <View style={styles.iconCircle}>
               <Text style={styles.largeEmoji}>🎬</Text>
@@ -118,9 +159,9 @@ export default function HomeScreen() {
             </View>
             <Text style={styles.arrow}>→</Text>
           </View>
-        </LinkWrapper>
+        </LinkButton>
         
-        <LinkWrapper href="/about">
+        <LinkButton href="/about">
           <View style={styles.largeButton}>
             <View style={styles.iconCircle}>
               <Text style={styles.largeEmoji}>ℹ️</Text>
@@ -131,7 +172,7 @@ export default function HomeScreen() {
             </View>
             <Text style={styles.arrow}>→</Text>
           </View>
-        </LinkWrapper>
+        </LinkButton>
       </View>
 
       <View style={styles.footer}>
