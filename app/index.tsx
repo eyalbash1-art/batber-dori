@@ -1,37 +1,88 @@
-import { Image, ScrollView, Text, View, Pressable } from "react-native";
-import { useRouter } from "expo-router";
+import { Image, ScrollView, Text, View, Pressable, Linking, Platform } from "react-native";
 
 export default function HomeScreen() {
-  const router = useRouter();
+  const navigateTo = (path: string) => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      (window as any).location.href = path;
+    }
+  };
   
+  const openTikTok = () => {
+    Linking.openURL("https://www.tiktok.com/@dor1033?_r=1&_t=ZS-93y38VGz5oi");
+  };
+
+  const openWhatsApp = () => {
+    Linking.openURL("https://wa.me/972505812495");
+  };
+
   return (
     <ScrollView className="flex-1 bg-slate-900" contentContainerStyle={{ paddingBottom: 40 }}>
-      <View className="px-4 pt-6 pb-6">
-        <View className="rounded-2xl overflow-hidden border-2 border-barber-gold/50 w-full" style={{ height: 400 }}>
-          <Image 
-            source={{ uri: "/barber-hero.png" }} 
-            className="w-full h-full" 
-            resizeMode="contain"
-            style={{ width: '100%', height: '100%' }}
-          />
-        </View>
-        <Text className="text-barber-gold font-bold text-xl mt-5 text-center">Barber Dori</Text>
-        <Text className="text-slate-400 text-sm mt-1 text-center">הזמנת תור • אימות ב-WhatsApp</Text>
+      {/* Header */}
+      <View className="px-4 pt-6 pb-4">
+        <Text className="text-white font-bold text-3xl text-center">דור באש</Text>
+        <Text className="text-barber-gold font-semibold text-xl mt-1 text-center">Barber Dori</Text>
+        <Text className="text-slate-400 text-sm mt-2 text-center">הזמנת תור • אימות ב-WhatsApp</Text>
       </View>
-      
-      <View className="px-6 gap-4">
-        <Pressable onPress={() => router.push('/booking')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
-          <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
-            <Text className="text-2xl">📅</Text>
+
+      {/* Main Content - Image with Buttons */}
+      <View className="px-4">
+        <View className="flex-row gap-3">
+          {/* Right Column Buttons */}
+          <View className="flex-1 gap-3 justify-center">
+            <Pressable 
+              onPress={() => navigateTo('/booking')}
+              className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80"
+            >
+              <Text className="text-3xl mb-2">📅</Text>
+              <Text className="text-white font-semibold text-center text-sm">קביעת{'\n'}תור</Text>
+            </Pressable>
+            
+            <Pressable 
+              onPress={openWhatsApp}
+              className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80"
+            >
+              <Text className="text-3xl mb-2">💬</Text>
+              <Text className="text-white font-semibold text-center text-sm">WhatsApp</Text>
+            </Pressable>
           </View>
-          <View className="flex-1">
-            <Text className="text-white font-semibold text-lg">הזמנת תור</Text>
-            <Text className="text-slate-400 text-sm">בחירת תאריך ושעה, אישור ב-WhatsApp</Text>
+
+          {/* Center Image */}
+          <View className="rounded-2xl overflow-hidden border-2 border-barber-gold/50" style={{ width: 200, height: 300 }}>
+            <Image 
+              source={{ uri: "/barber-hero.png" }} 
+              className="w-full h-full" 
+              resizeMode="cover"
+              style={{ width: '100%', height: '100%' }}
+            />
           </View>
-          <Text className="text-barber-gold text-lg">→</Text>
-        </Pressable>
-        
-        <Pressable onPress={() => router.push('/media')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
+
+          {/* Left Column Buttons */}
+          <View className="flex-1 gap-3 justify-center">
+            <Pressable 
+              onPress={openTikTok}
+              className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80"
+            >
+              <Text className="text-3xl mb-2">🎵</Text>
+              <Text className="text-white font-semibold text-center text-sm">TikTok</Text>
+            </Pressable>
+            
+            <Pressable 
+              onPress={() => navigateTo('/prices')}
+              className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80"
+            >
+              <Text className="text-3xl mb-2">💰</Text>
+              <Text className="text-white font-semibold text-center text-sm">מחירון</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+
+      {/* Bottom Buttons */}
+      <View className="px-6 mt-6 gap-3">
+        <Pressable 
+          onPress={() => navigateTo('/media')}
+          className="bg-barber-card border border-barber-border rounded-2xl p-4 flex-row items-center active:opacity-80"
+        >
           <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
             <Text className="text-2xl">🎬</Text>
           </View>
@@ -42,18 +93,10 @@ export default function HomeScreen() {
           <Text className="text-barber-gold text-lg">→</Text>
         </Pressable>
         
-        <Pressable onPress={() => router.push('/prices')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
-          <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
-            <Text className="text-2xl">💰</Text>
-          </View>
-          <View className="flex-1">
-            <Text className="text-white font-semibold text-lg">מחירון</Text>
-            <Text className="text-slate-400 text-sm">תספורת, זקן, פדיים ועוד</Text>
-          </View>
-          <Text className="text-barber-gold text-lg">→</Text>
-        </Pressable>
-        
-        <Pressable onPress={() => router.push('/about')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
+        <Pressable 
+          onPress={() => navigateTo('/about')}
+          className="bg-barber-card border border-barber-border rounded-2xl p-4 flex-row items-center active:opacity-80"
+        >
           <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
             <Text className="text-2xl">ℹ️</Text>
           </View>
@@ -64,10 +107,10 @@ export default function HomeScreen() {
           <Text className="text-barber-gold text-lg">→</Text>
         </Pressable>
       </View>
-      
-      <View className="px-6 mt-8">
+
+      <View className="px-6 mt-6">
         <Text className="text-slate-500 text-center text-sm">
-          התור מאושר רק אחרי אישור הברבר ב-WhatsApp.
+          התור מאושר רק אחרי אישור הברבר ב-WhatsApp
         </Text>
       </View>
     </ScrollView>
