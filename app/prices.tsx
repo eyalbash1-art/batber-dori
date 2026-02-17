@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   description: { color: '#94a3b8', fontSize: 14, marginBottom: 24 },
   loader: { paddingVertical: 32 },
   list: { gap: 12 },
-  serviceCard: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  serviceCard: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
   serviceContent: { flex: 1 },
   serviceName: { color: '#ffffff', fontWeight: '600', fontSize: 18 },
   serviceDescription: { color: '#94a3b8', fontSize: 14, marginTop: 2 },
@@ -23,10 +23,11 @@ function toService(row: ServiceRow): { id: string; name: string; price: string; 
 
 export default function PricesScreen() {
   const [services, setServices] = useState(FALLBACK_SERVICES);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
     (async () => {
       const { data, error } = await supabase.from("services").select("id, name, price, description, sort_order").order("sort_order", { ascending: true });
       if (cancelled) return;
@@ -42,7 +43,7 @@ export default function PricesScreen() {
       {loading ? (
         <ActivityIndicator size="large" color="#d4af37" style={styles.loader} />
       ) : (
-        <View style={styles.list}>
+        <View>
           {services.map((service) => (
             <View key={service.id} style={styles.serviceCard}>
               <View style={styles.serviceContent}>

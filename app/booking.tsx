@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
   content: { paddingHorizontal: 24, paddingVertical: 16, paddingBottom: 40 },
   description: { color: '#94a3b8', fontSize: 14, marginBottom: 16 },
-  label: { color: '#ffffff', fontWeight: '600', marginBottom: 8 },
+  label: { color: '#ffffff', fontWeight: '600', marginBottom: 8, fontSize: 16 },
   datesScroll: { marginBottom: 24 },
   datesRow: { flexDirection: 'row', gap: 12 },
   dateButton: { paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12, minWidth: 100, alignItems: 'center' },
