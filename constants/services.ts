@@ -1,9 +1,7 @@
-export interface Service { id: string; name: string; price: string; description?: string }
-export const FALLBACK_SERVICES: Service[] = [
-  { id: "1", name: "Haircut", price: "€15", description: "Classic cut & style" },
-  { id: "2", name: "Beard Trim", price: "€8", description: "Shape & tidy" },
-  { id: "3", name: "Haircut + Beard", price: "€20", description: "Full grooming" },
-  { id: "4", name: "Kids Cut (under 12)", price: "€10", description: "Quick & fun" },
-  { id: "5", name: "Skin Fade", price: "€18", description: "Sharp fade" },
-  { id: "6", name: "Line Up", price: "€5", description: "Crisp edges" },
+export const FALLBACK_SERVICES = [
+  { id: "1", name: "טייפר", price: "40 ₪", description: "תספורת טייפר מקצועית" },
+  { id: "2", name: "לואו קאט", price: "40 ₪", description: "תספורת לואו קאט" },
+  { id: "3", name: "זקן", price: "25 ₪", description: "עיצוב וגילוח זקן" },
+  { id: "4", name: "תספורת ילד", price: "30 ₪", description: "תספורת לילדים" },
+  { id: "5", name: "תספורת מבוגר + זקן", price: "60 ₪", description: "חבילה משתלמת" }
 ];

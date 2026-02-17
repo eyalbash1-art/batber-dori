@@ -1,15 +1,17 @@
-import { Image, ScrollView, Text, View } from "react-native";
-import { Link } from "expo-router";
+import { Image, ScrollView, Text, View, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
+  const router = useRouter();
+  
   return (
     <ScrollView className="flex-1 bg-slate-900" contentContainerStyle={{ paddingBottom: 40 }}>
       <View className="px-4 pt-6 pb-6">
-        <View className="rounded-2xl overflow-hidden border-2 border-barber-gold/50 w-full aspect-[3/4] max-h-[500px]">
+        <View className="rounded-2xl overflow-hidden border-2 border-barber-gold/50 w-full" style={{ height: 400 }}>
           <Image 
             source={{ uri: "/barber-hero.png" }} 
             className="w-full h-full" 
-            resizeMode="cover"
+            resizeMode="contain"
             style={{ width: '100%', height: '100%' }}
           />
         </View>
@@ -18,7 +20,7 @@ export default function HomeScreen() {
       </View>
       
       <View className="px-6 gap-4">
-        <Link href="/booking" className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
+        <Pressable onPress={() => router.push('/booking')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
           <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
             <Text className="text-2xl">📅</Text>
           </View>
@@ -27,9 +29,9 @@ export default function HomeScreen() {
             <Text className="text-slate-400 text-sm">בחירת תאריך ושעה, אישור ב-WhatsApp</Text>
           </View>
           <Text className="text-barber-gold text-lg">→</Text>
-        </Link>
+        </Pressable>
         
-        <Link href="/media" className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
+        <Pressable onPress={() => router.push('/media')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
           <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
             <Text className="text-2xl">🎬</Text>
           </View>
@@ -38,9 +40,9 @@ export default function HomeScreen() {
             <Text className="text-slate-400 text-sm">תספורות וסגנונות</Text>
           </View>
           <Text className="text-barber-gold text-lg">→</Text>
-        </Link>
+        </Pressable>
         
-        <Link href="/prices" className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
+        <Pressable onPress={() => router.push('/prices')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
           <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
             <Text className="text-2xl">💰</Text>
           </View>
@@ -49,7 +51,18 @@ export default function HomeScreen() {
             <Text className="text-slate-400 text-sm">תספורת, זקן, פדיים ועוד</Text>
           </View>
           <Text className="text-barber-gold text-lg">→</Text>
-        </Link>
+        </Pressable>
+        
+        <Pressable onPress={() => router.push('/about')} className="bg-barber-card border border-barber-border rounded-2xl p-5 flex-row items-center active:opacity-80">
+          <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
+            <Text className="text-2xl">ℹ️</Text>
+          </View>
+          <View className="flex-1">
+            <Text className="text-white font-semibold text-lg">אודות</Text>
+            <Text className="text-slate-400 text-sm">הברבר, ביוגרפיה וקישורים</Text>
+          </View>
+          <Text className="text-barber-gold text-lg">→</Text>
+        </Pressable>
       </View>
       
       <View className="px-6 mt-8">
