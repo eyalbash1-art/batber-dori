@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, View, Pressable, Linking, StyleSheet } from "react-native";
+import { Image, ScrollView, Text, View, StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
   column: { flex: 1, gap: 12, justifyContent: 'center' },
   imageContainer: { width: 200, height: 300, borderRadius: 16, overflow: 'hidden', borderWidth: 2, borderColor: '#d4af37' },
   image: { width: '100%', height: '100%' },
-  button: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 12, padding: 16, alignItems: 'center' },
+  button: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 12, padding: 16, alignItems: 'center', textDecoration: 'none' },
   emoji: { fontSize: 30, marginBottom: 8 },
   buttonText: { color: '#ffffff', fontWeight: '600', textAlign: 'center', fontSize: 13 },
   bottomSection: { paddingHorizontal: 24, marginTop: 24, gap: 12 },
-  largeButton: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center' },
+  largeButton: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', textDecoration: 'none' },
   iconCircle: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(212, 175, 55, 0.2)', alignItems: 'center', justifyContent: 'center', marginRight: 16 },
   largeEmoji: { fontSize: 24 },
   buttonContent: { flex: 1 },
@@ -27,18 +27,31 @@ const styles = StyleSheet.create({
 });
 
 export default function HomeScreen() {
-  const openTikTok = () => {
-    Linking.openURL("https://www.tiktok.com/@dor1033?_r=1&_t=ZS-93y38VGz5oi");
-  };
-
-  const openWhatsApp = () => {
-    Linking.openURL("https://wa.me/972505812495");
-  };
-
-  const navigateTo = (path: string) => {
-    if (typeof window !== 'undefined') {
-      (window as any).location.href = path;
+  const openUrl = (url: string) => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.open(url, '_blank');
     }
+  };
+
+  const LinkWrapper = ({ href, children, external = false }: any) => {
+    if (Platform.OS === 'web') {
+      return (
+        <a 
+          href={href} 
+          style={{ 
+            textDecoration: 'none', 
+            color: 'inherit', 
+            display: 'flex',
+            flex: external ? undefined : 1
+          }}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+        >
+          {children}
+        </a>
+      );
+    }
+    return children;
   };
 
   return (
@@ -52,15 +65,19 @@ export default function HomeScreen() {
       <View style={styles.mainContent}>
         <View style={styles.row}>
           <View style={styles.column}>
-            <Pressable onPress={() => navigateTo('/booking')} style={styles.button}>
-              <Text style={styles.emoji}>📅</Text>
-              <Text style={styles.buttonText}>קביעת{'\n'}תור</Text>
-            </Pressable>
+            <LinkWrapper href="/booking">
+              <View style={styles.button}>
+                <Text style={styles.emoji}>📅</Text>
+                <Text style={styles.buttonText}>קביעת{'\n'}תור</Text>
+              </View>
+            </LinkWrapper>
             
-            <Pressable onPress={openWhatsApp} style={styles.button}>
-              <Text style={styles.emoji}>💬</Text>
-              <Text style={styles.buttonText}>WhatsApp</Text>
-            </Pressable>
+            <LinkWrapper href="https://wa.me/972505812495" external>
+              <View style={styles.button}>
+                <Text style={styles.emoji}>💬</Text>
+                <Text style={styles.buttonText}>WhatsApp</Text>
+              </View>
+            </LinkWrapper>
           </View>
 
           <View style={styles.imageContainer}>
@@ -72,41 +89,49 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.column}>
-            <Pressable onPress={openTikTok} style={styles.button}>
-              <Text style={styles.emoji}>🎵</Text>
-              <Text style={styles.buttonText}>TikTok</Text>
-            </Pressable>
+            <LinkWrapper href="https://www.tiktok.com/@dor1033?_r=1&_t=ZS-93y38VGz5oi" external>
+              <View style={styles.button}>
+                <Text style={styles.emoji}>🎵</Text>
+                <Text style={styles.buttonText}>TikTok</Text>
+              </View>
+            </LinkWrapper>
             
-            <Pressable onPress={() => navigateTo('/prices')} style={styles.button}>
-              <Text style={styles.emoji}>💰</Text>
-              <Text style={styles.buttonText}>מחירון</Text>
-            </Pressable>
+            <LinkWrapper href="/prices">
+              <View style={styles.button}>
+                <Text style={styles.emoji}>💰</Text>
+                <Text style={styles.buttonText}>מחירון</Text>
+              </View>
+            </LinkWrapper>
           </View>
         </View>
       </View>
 
       <View style={styles.bottomSection}>
-        <Pressable onPress={() => navigateTo('/media')} style={styles.largeButton}>
-          <View style={styles.iconCircle}>
-            <Text style={styles.largeEmoji}>🎬</Text>
+        <LinkWrapper href="/media">
+          <View style={styles.largeButton}>
+            <View style={styles.iconCircle}>
+              <Text style={styles.largeEmoji}>🎬</Text>
+            </View>
+            <View style={styles.buttonContent}>
+              <Text style={styles.largeButtonTitle}>גלריה</Text>
+              <Text style={styles.largeButtonSubtitle}>תספורות וסגנונות</Text>
+            </View>
+            <Text style={styles.arrow}>→</Text>
           </View>
-          <View style={styles.buttonContent}>
-            <Text style={styles.largeButtonTitle}>גלריה</Text>
-            <Text style={styles.largeButtonSubtitle}>תספורות וסגנונות</Text>
-          </View>
-          <Text style={styles.arrow}>→</Text>
-        </Pressable>
+        </LinkWrapper>
         
-        <Pressable onPress={() => navigateTo('/about')} style={styles.largeButton}>
-          <View style={styles.iconCircle}>
-            <Text style={styles.largeEmoji}>ℹ️</Text>
+        <LinkWrapper href="/about">
+          <View style={styles.largeButton}>
+            <View style={styles.iconCircle}>
+              <Text style={styles.largeEmoji}>ℹ️</Text>
+            </View>
+            <View style={styles.buttonContent}>
+              <Text style={styles.largeButtonTitle}>אודות</Text>
+              <Text style={styles.largeButtonSubtitle}>הברבר, ביוגרפיה וקישורים</Text>
+            </View>
+            <Text style={styles.arrow}>→</Text>
           </View>
-          <View style={styles.buttonContent}>
-            <Text style={styles.largeButtonTitle}>אודות</Text>
-            <Text style={styles.largeButtonSubtitle}>הברבר, ביוגרפיה וקישורים</Text>
-          </View>
-          <Text style={styles.arrow}>→</Text>
-        </Pressable>
+        </LinkWrapper>
       </View>
 
       <View style={styles.footer}>
