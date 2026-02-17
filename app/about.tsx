@@ -16,17 +16,18 @@ export default function AboutScreen() {
           <View className="w-20 h-20 rounded-full bg-barber-gold/20 items-center justify-center mb-3">
             <Text className="text-4xl">✂️</Text>
           </View>
-          <Text className="text-barber-gold font-bold text-2xl">Barber Dori</Text>
+          <Text className="text-barber-gold font-bold text-2xl">דור באש</Text>
+          <Text className="text-white font-semibold text-lg mt-1">Barber Dori</Text>
           <Text className="text-slate-400 text-sm mt-1">ספר מקצועי</Text>
         </View>
         
         <View className="border-t border-barber-border pt-4">
-          <Text className="text-white font-semibold text-lg mb-3">ביוגרפיה</Text>
-          <Text className="text-slate-300 leading-6">
-            12.5 שנים של יצירתיות ללא הפסקה. המנכ"ל הרשמי של עולם המילים והמספרים. 
-            הוא לא מחכה לעתיד – הוא בונה אותו באפליקציה הזו. 
-            {"\n\n"}
-            אזהרה: הקריאה עלולה לגרום לעודף חוכמה ורצון עז לשחק.
+          <Text className="text-white font-semibold text-lg mb-3">אודות</Text>
+          <Text className="text-slate-300 leading-6 text-base">
+            חותך את הגלים בים ואת השיער במספרה. 🏄‍♂️💇‍♂️{'\n'}
+            אלוף על הסקוט ומדויק עם המכונה.{'\n'}
+            בן 12.5, אבל התוצאות מדברות בעד עצמן.{'\n'}
+            נתראה בתור!
           </Text>
         </View>
       </View>
