@@ -1,14 +1,30 @@
 import { useEffect, useState } from "react";
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import { supabase } from "../lib/supabase";
 import { FALLBACK_SERVICES } from "../constants/services";
 import type { ServiceRow } from "../lib/supabase";
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0f172a' },
+  content: { padding: 24, paddingBottom: 40 },
+  description: { color: '#94a3b8', fontSize: 14, marginBottom: 24 },
+  loader: { paddingVertical: 32 },
+  list: { gap: 12 },
+  serviceCard: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  serviceContent: { flex: 1 },
+  serviceName: { color: '#ffffff', fontWeight: '600', fontSize: 18 },
+  serviceDescription: { color: '#94a3b8', fontSize: 14, marginTop: 2 },
+  servicePrice: { color: '#d4af37', fontWeight: 'bold', fontSize: 18 }
+});
+
 function toService(row: ServiceRow): { id: string; name: string; price: string; description?: string } {
   return { id: row.id, name: row.name, price: row.price, description: row.description ?? undefined };
 }
+
 export default function PricesScreen() {
   const [services, setServices] = useState(FALLBACK_SERVICES);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -19,18 +35,21 @@ export default function PricesScreen() {
     })();
     return () => { cancelled = true; };
   }, []);
+
   return (
-    <ScrollView className="flex-1 bg-slate-900" contentContainerStyle={{ padding: 24, paddingBottom: 40 }}>
-      <Text className="text-slate-400 text-sm mb-6">שירותים ומחירים. להצעות חבילות שאל ב-WhatsApp.</Text>
-      {loading ? <ActivityIndicator size="large" color="#d4af37" className="py-8" /> : (
-        <View className="gap-3">
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <Text style={styles.description}>שירותים ומחירים. להצעות חבילות שאל ב-WhatsApp.</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#d4af37" style={styles.loader} />
+      ) : (
+        <View style={styles.list}>
           {services.map((service) => (
-            <View key={service.id} className="bg-barber-card border border-barber-border rounded-2xl p-4 flex-row items-center justify-between">
-              <View className="flex-1">
-                <Text className="text-white font-semibold text-lg">{service.name}</Text>
-                {service.description && <Text className="text-slate-400 text-sm mt-0.5">{service.description}</Text>}
+            <View key={service.id} style={styles.serviceCard}>
+              <View style={styles.serviceContent}>
+                <Text style={styles.serviceName}>{service.name}</Text>
+                {service.description && <Text style={styles.serviceDescription}>{service.description}</Text>}
               </View>
-              <Text className="text-barber-gold font-bold text-lg">{service.price}</Text>
+              <Text style={styles.servicePrice}>{service.price}</Text>
             </View>
           ))}
         </View>

@@ -1,5 +1,30 @@
-import { Image, ScrollView, Text, View, Pressable, Linking, Platform } from "react-native";
-import { ReactNode } from "react";
+import { Image, ScrollView, Text, View, Pressable, Linking, StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0f172a' },
+  header: { paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 },
+  title: { color: '#ffffff', fontWeight: 'bold', fontSize: 28, textAlign: 'center' },
+  subtitle: { color: '#d4af37', fontWeight: '600', fontSize: 20, marginTop: 4, textAlign: 'center' },
+  description: { color: '#94a3b8', fontSize: 14, marginTop: 8, textAlign: 'center' },
+  mainContent: { paddingHorizontal: 16 },
+  row: { flexDirection: 'row', gap: 12 },
+  column: { flex: 1, gap: 12, justifyContent: 'center' },
+  imageContainer: { width: 200, height: 300, borderRadius: 16, overflow: 'hidden', borderWidth: 2, borderColor: '#d4af37' },
+  image: { width: '100%', height: '100%' },
+  button: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 12, padding: 16, alignItems: 'center' },
+  emoji: { fontSize: 30, marginBottom: 8 },
+  buttonText: { color: '#ffffff', fontWeight: '600', textAlign: 'center', fontSize: 13 },
+  bottomSection: { paddingHorizontal: 24, marginTop: 24, gap: 12 },
+  largeButton: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center' },
+  iconCircle: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(212, 175, 55, 0.2)', alignItems: 'center', justifyContent: 'center', marginRight: 16 },
+  largeEmoji: { fontSize: 24 },
+  buttonContent: { flex: 1 },
+  largeButtonTitle: { color: '#ffffff', fontWeight: '600', fontSize: 18 },
+  largeButtonSubtitle: { color: '#94a3b8', fontSize: 14 },
+  arrow: { color: '#d4af37', fontSize: 18 },
+  footer: { paddingHorizontal: 24, marginTop: 24 },
+  footerText: { color: '#64748b', textAlign: 'center', fontSize: 14 }
+});
 
 export default function HomeScreen() {
   const openTikTok = () => {
@@ -10,111 +35,82 @@ export default function HomeScreen() {
     Linking.openURL("https://wa.me/972505812495");
   };
 
-  // Web navigation component
-  const NavButton = ({ href, children }: { href: string; children: ReactNode }) => {
-    if (Platform.OS === 'web') {
-      return (
-        <a href={href} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flex: 1 }}>
-          {children}
-        </a>
-      );
+  const navigateTo = (path: string) => {
+    if (typeof window !== 'undefined') {
+      (window as any).location.href = path;
     }
-    return <>{children}</>;
   };
 
   return (
-    <ScrollView className="flex-1 bg-slate-900" contentContainerStyle={{ paddingBottom: 40 }}>
-      {/* Header */}
-      <View className="px-4 pt-6 pb-4">
-        <Text className="text-white font-bold text-3xl text-center">דור באש</Text>
-        <Text className="text-barber-gold font-semibold text-xl mt-1 text-center">Barber Dori</Text>
-        <Text className="text-slate-400 text-sm mt-2 text-center">הזמנת תור • אימות ב-WhatsApp</Text>
+    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+      <View style={styles.header}>
+        <Text style={styles.title}>דור באש</Text>
+        <Text style={styles.subtitle}>Barber Dori</Text>
+        <Text style={styles.description}>הזמנת תור • אימות ב-WhatsApp</Text>
       </View>
 
-      {/* Main Content - Image with Buttons */}
-      <View className="px-4">
-        <View className="flex-row gap-3">
-          {/* Right Column Buttons */}
-          <View className="flex-1 gap-3 justify-center">
-            <NavButton href="/booking">
-              <View className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80" style={{ width: '100%' }}>
-                <Text className="text-3xl mb-2">📅</Text>
-                <Text className="text-white font-semibold text-center text-sm">קביעת{'\n'}תור</Text>
-              </View>
-            </NavButton>
+      <View style={styles.mainContent}>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            <Pressable onPress={() => navigateTo('/booking')} style={styles.button}>
+              <Text style={styles.emoji}>📅</Text>
+              <Text style={styles.buttonText}>קביעת{'\n'}תור</Text>
+            </Pressable>
             
-            <Pressable 
-              onPress={openWhatsApp}
-              className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80"
-            >
-              <Text className="text-3xl mb-2">💬</Text>
-              <Text className="text-white font-semibold text-center text-sm">WhatsApp</Text>
+            <Pressable onPress={openWhatsApp} style={styles.button}>
+              <Text style={styles.emoji}>💬</Text>
+              <Text style={styles.buttonText}>WhatsApp</Text>
             </Pressable>
           </View>
 
-          {/* Center Image */}
-          <View className="rounded-2xl overflow-hidden border-2 border-barber-gold/50" style={{ width: 200, height: 300 }}>
+          <View style={styles.imageContainer}>
             <Image 
               source={{ uri: "/barber-hero.png" }} 
-              className="w-full h-full" 
+              style={styles.image} 
               resizeMode="cover"
-              style={{ width: '100%', height: '100%' }}
             />
           </View>
 
-          {/* Left Column Buttons */}
-          <View className="flex-1 gap-3 justify-center">
-            <Pressable 
-              onPress={openTikTok}
-              className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80"
-            >
-              <Text className="text-3xl mb-2">🎵</Text>
-              <Text className="text-white font-semibold text-center text-sm">TikTok</Text>
+          <View style={styles.column}>
+            <Pressable onPress={openTikTok} style={styles.button}>
+              <Text style={styles.emoji}>🎵</Text>
+              <Text style={styles.buttonText}>TikTok</Text>
             </Pressable>
             
-            <NavButton href="/prices">
-              <View className="bg-barber-card border border-barber-border rounded-xl p-4 items-center active:opacity-80" style={{ width: '100%' }}>
-                <Text className="text-3xl mb-2">💰</Text>
-                <Text className="text-white font-semibold text-center text-sm">מחירון</Text>
-              </View>
-            </NavButton>
+            <Pressable onPress={() => navigateTo('/prices')} style={styles.button}>
+              <Text style={styles.emoji}>💰</Text>
+              <Text style={styles.buttonText}>מחירון</Text>
+            </Pressable>
           </View>
         </View>
       </View>
 
-      {/* Bottom Buttons */}
-      <View className="px-6 mt-6 gap-3">
-        <NavButton href="/media">
-          <View className="bg-barber-card border border-barber-border rounded-2xl p-4 flex-row items-center active:opacity-80">
-            <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
-              <Text className="text-2xl">🎬</Text>
-            </View>
-            <View className="flex-1">
-              <Text className="text-white font-semibold text-lg">גלריה</Text>
-              <Text className="text-slate-400 text-sm">תספורות וסגנונות</Text>
-            </View>
-            <Text className="text-barber-gold text-lg">→</Text>
+      <View style={styles.bottomSection}>
+        <Pressable onPress={() => navigateTo('/media')} style={styles.largeButton}>
+          <View style={styles.iconCircle}>
+            <Text style={styles.largeEmoji}>🎬</Text>
           </View>
-        </NavButton>
+          <View style={styles.buttonContent}>
+            <Text style={styles.largeButtonTitle}>גלריה</Text>
+            <Text style={styles.largeButtonSubtitle}>תספורות וסגנונות</Text>
+          </View>
+          <Text style={styles.arrow}>→</Text>
+        </Pressable>
         
-        <NavButton href="/about">
-          <View className="bg-barber-card border border-barber-border rounded-2xl p-4 flex-row items-center active:opacity-80">
-            <View className="w-12 h-12 rounded-full bg-barber-gold/20 items-center justify-center mr-4">
-              <Text className="text-2xl">ℹ️</Text>
-            </View>
-            <View className="flex-1">
-              <Text className="text-white font-semibold text-lg">אודות</Text>
-              <Text className="text-slate-400 text-sm">הברבר, ביוגרפיה וקישורים</Text>
-            </View>
-            <Text className="text-barber-gold text-lg">→</Text>
+        <Pressable onPress={() => navigateTo('/about')} style={styles.largeButton}>
+          <View style={styles.iconCircle}>
+            <Text style={styles.largeEmoji}>ℹ️</Text>
           </View>
-        </NavButton>
+          <View style={styles.buttonContent}>
+            <Text style={styles.largeButtonTitle}>אודות</Text>
+            <Text style={styles.largeButtonSubtitle}>הברבר, ביוגרפיה וקישורים</Text>
+          </View>
+          <Text style={styles.arrow}>→</Text>
+        </Pressable>
       </View>
 
-      <View className="px-6 mt-6">
-        <Text className="text-slate-500 text-center text-sm">
-          התור מאושר רק אחרי אישור הברבר ב-WhatsApp
-        </Text>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>התור מאושר רק אחרי אישור הברבר ב-WhatsApp</Text>
       </View>
     </ScrollView>
   );
